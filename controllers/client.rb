@@ -57,6 +57,8 @@ module Gemini
 
         @request_options = config.dig(:options, :connection, :request)
 
+        @request_options[:timeout] = 500
+
         @faraday_adapter = config.dig(:options, :connection, :adapter) || DEFAULT_FARADAY_ADAPTER
 
         @request_options = if @request_options.is_a?(Hash)
