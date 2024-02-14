@@ -57,8 +57,6 @@ module Gemini
 
         @request_options = config.dig(:options, :connection, :request)
 
-        @request_options[:timeout] = 500
-
         @faraday_adapter = config.dig(:options, :connection, :adapter) || DEFAULT_FARADAY_ADAPTER
 
         @request_options = if @request_options.is_a?(Hash)
@@ -99,7 +97,7 @@ module Gemini
 
         results = []
 
-        response = Faraday.new(request: @request_options) do |faraday|
+        response = Faraday.new(url: url, request: {timeout: 600, open_timeout: 600}) do |faraday|
           faraday.adapter @faraday_adapter
           faraday.response :raise_error
         end.post do |request|
